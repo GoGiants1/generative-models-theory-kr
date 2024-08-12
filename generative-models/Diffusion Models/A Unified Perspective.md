@@ -143,7 +143,7 @@ $$
 
 즉, 임의의 정규분포는 표준정규분포(standard gaussian)로부터 샘플링한 후, 이를 $\sigma$만큼 scale, $\mu$만큼 shift하는 것으로 표현할 수 있다는 것이다.
 
-이러한 방법론을 VAE에 적용하면, encoder는
+이러한 방법론을 VAE에 적용하면, latent $z$를 다음과 같이 reparameterize할 수 있다.
 
 $$
 \mathbf{z} = \mathbf{\mu_{\phi}(x) + \sigma_{\phi}(x) \odot \epsilon} \quad \text{with} \quad \epsilon \sim \mathbf{ \mathcal{N}(0, I})
