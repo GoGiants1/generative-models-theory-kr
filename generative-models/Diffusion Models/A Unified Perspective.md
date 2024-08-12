@@ -154,3 +154,5 @@ VAE의 학습이 끝난 뒤에는, encoder와 decoder를 분리하여 사용할 
 
 
 ### Hierarchical VAE
+
+Hierarchical VAE는 VAE의 일반화된 형태로, 계층적으로 여러 latent variable을 사용하여 데이터를 모델링하는 방법이다. 
