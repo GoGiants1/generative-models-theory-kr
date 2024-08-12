@@ -105,4 +105,52 @@ $$
 
 ### Variational Autoencoder (VAE)
 
+VAE의 default formulation은 ELBO를 직접 최대화하는 것이다. 이 방법은 *variational* 하다고 불린다. 이는 우리가 a family of potential posterior distributions(parameterized by $\phi$) 중 최적의 분포 $q_{\phi}(z|x)$를 찾기 위해 최적화하는 것을 의미한다. VAE가 *autoencoder*라고 불리는 전통적인 autoencoder 모델처럼 데티어 분포의 intermediate bottlenecking representation을 학습하기 때문이다.
+
+이러한 특징을 더욱 자세히 설명하기 위해, VAE의 ELBO 수식을 더욱 분해해보자.
+
+$$
+\mathbb{E}_{q_{\phi}(z|x)} \left [\log \frac{ p(x, z)}{q_{\phi}(z|x)} \right] = \mathbb{E}_{q_{\phi}(z|x)} \left [\log \frac{ p_{\theta}(x|z)p(z)}{q_{\phi}(z|x)} \right]
+\\= \mathbb{E}_{q_{\phi}(z|x)} \left [\log p_{\theta}(x|z) \right] - D_{KL}(q_{\phi}(z|x) || p(z))
+$$
+
+이 식에서
+
+- $q_{\phi}(z|x)$: **encoder**, $x$를 latent $z$로 만드는 함수이며, intermediate bottlenecking representation(distribution)을 의미한다.
+- 동시에, deterministic function $p_{\theta}(x|z)$는 **decoder**로, 주어진 latent $z$를 관측 데이터 $x$로 변환하는 함수이다.
+- 첫째 항은 reconstruction likelihood이며, 원래 데이터 $x$를 잘 복원할 수 있는 latent $z$를 얼마나 효율적으로 모델링하고 있는지를 측정한다.
+- 두번째 항은 KL divergence로, encoder가 prior belief $p(z)$와 얼마나 가까운지를 측정한다.
+
+VAE의 특징은 ELBO를 최적화할 때, $\phi$와 $\theta$ 두 파라미터에 대해 동시에 최적화한다는 것이다.
+
+이제, 이 ELBO를 효율적으로 최적화하기 위해 인코더와 사전 확률 분포의 형태를 가정하고, reparameterization trick, Monte Carlo estimate(sample method)를 적용해 볼 것이다.
+
+- Encoder: $q_{\phi}(z|x) = \mathcal{N}(z;\mu_{\phi}(x), \sigma_{\phi}^2(x)\mathbf{I})$
+- Prior: $p(z) = \mathcal{N}(z;\mathbf{0}, \mathbf{I})$
+
+$$
+\underset{\phi, \theta} {\text{argmax}}{\mathbb{E}}_{q_{\phi}(z|x)} \left [\log p_{\theta}(x|z) \right] - D_{KL}(q_{\phi}(z|x) || p(z))
+\\~\approx \underset{\phi, \theta} {\text{argmax}} \sum_{l=1}^{L} \log p_{\theta}(x|z^{(l)}) - D_{KL}(q_{\phi}(z|x) || p(z))
+$$
+
+근사된 식의 첫번째 항은 Monte Carlo estimate를 이용하여 계산하고, 두번째 항은 앞서 Encoder와 Prior에 대해 했던 가정 덕분에 closed-form으로 계산할 수 있다. 그러나 이러한 방법론은 여전히 몇 가지 문제점을 가지고 있다.
+
+latent $\left \{ z^{(l)}  \right \}_{l=1}^{L}$은 $q_{\phi}(z|x)$로부터 stochastic하게 샘플링되기 때문에 일반적으로는 미분이 불가능하다. 그래서 이 수식에 추가적으로 reparameterization trick을 적용하여 미분 가능한 형태로 변환할 수 있다.
+
+$$
+x = \mu + \sigma \epsilon \quad \text{with} \quad \epsilon \sim \mathcal{N}(0, \mathbf{I})
+$$
+
+즉, 임의의 정규분포는 표준정규분포(standard gaussian)로부터 샘플링한 후, 이를 $\sigma$만큼 scale, $\mu$만큼 shift하는 것으로 표현할 수 있다는 것이다.
+
+이러한 방법론을 VAE에 적용하면, encoder는
+
+$$
+\mathbf{z} = \mathbf{\mu_{\phi}(x) + \sigma_{\phi}(x) \odot \epsilon} \quad \text{with} \quad \epsilon \sim \mathbf{ \mathcal{N}(0, I})
+$$
+로 표현할 수 있고, 이 reparameterized latent $\mathbf{z}$를 이용하면, $\phi$에 관한 gradient를 계산할 수 있다.
+
+VAE의 학습이 끝난 뒤에는, encoder와 decoder를 분리하여 사용할 수 있으며, latent space $p(z)$에서 직접적으로 샘플링하여, decoder를 통해 새로운 데이터를 생성할 수 있다. VAE는 z의 차원이 x보다 작을 때, compact and useful representation을 학습할 수 있다는 장점이 있다.
+
+
 ### Hierarchical VAE
