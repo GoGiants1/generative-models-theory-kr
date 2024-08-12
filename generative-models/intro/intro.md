@@ -1,11 +1,14 @@
 # Generative Modeling: An Introduction
+
 생성 모델은 joint probability distribution을 학습하여 새로운 데이터를 생성하는 모델입니다. 이러한 모델은 이미지, 텍스트, 음악 등 다양한 데이터 유형을 생성할 수 있으며, GANs, VAEs, autoregressive models, normalizing flows, diffusion models, energy based models(EBM) 등 다양한 종류가 있습니다. 이 글은 `Probabilistic Machine Learning: Advanced Topics(2023)` 책을 공부하며 작성한 글입니다.
 
 ## What is Generative Modeling?
+
 - 생성 모델은 joint probability distribution $p(x)$를 학습합니다. 이때, $x \in \mathcal{X}$는 데이터 포인트를 나타냅니다.
 - 몇몇 생성 모델은 input이나 covariates $c \in \mathcal{C}$를 사용하여 conditional generative $p(x|c)$를 학습합니다.
 
 ## Types of Generative Models
+
 생성 모델을 분류할 때, 다음과 같은 기준을 사용할 수 있습니다.
 
 - **Density**: 모델이 pdf 함수 $p(\mathbb{x})$ pointwise evaluation을 지원하는지, 이 pdf 함수가 정확한지, lower bound(or 근사값)인지, 빠르거나 느린지 등으로 구별할 수 있습니다. Implicit density models는 확률 분포를 직접적으로 모델링하지 않습니다.(e.g., GANs, )
