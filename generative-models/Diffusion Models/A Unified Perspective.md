@@ -52,7 +52,7 @@ $$
 
 ### Evidence Lower Bound (ELBO)
 
-수학적으로, latent variable $z$와 우리가 관착한 data $x$를 joint distribution $p(x, z)$로 표현할 수 있다. 이를 marginalize하여 observed data의 likelihood $p(x)$를 구하려고 시도할 수 있다.
+수학적으로, latent variable $z$와 우리가 관찰한 data $x$를 joint distribution $p(x, z)$로 표현할 수 있다. 이를 marginalize하여 observed data의 likelihood $p(x)$를 구하려고 시도할 수 있다.
 
 $$
 p(x) = \int p(x, z) dz
@@ -72,7 +72,7 @@ $$
 
 여기서 $q_{\phi}(z|x)$는 flexible approximate variational distribution을 의미한다.
 
-이 ELBO 수식을 유도하는 방법은 두 가지가 있다. 하나는 Jensen's inequality를 이용하는 방법이고, 다른 하나는 KL divergence를 이용하는 방법이다. 전자는 우리에게 유용한 정보를 제공하지 못하기 때문에 후자를 이용하여 ELBO를 유도하는 것이 더욱 많은 인사이트를 제공한고 한다.
+이 ELBO 수식을 유도하는 방법은 두 가지가 있다. 하나는 Jensen's inequality를 이용하는 방법이고, 다른 하나는 KL divergence를 이용하는 방법이다. 전자는 우리에게 유용한 정보를 제공하지 못하기 때문에 후자를 이용하여 ELBO를 유도하는 것이 더욱 많은 인사이트를 제공한다고 한다.
 
 유도하는 수식을 살펴보면 아래와 같다. 이때, trick으로는 $1 = \smallint q_{\phi}(z|x) dz = \frac{q_{\phi}(z|x)}{q_{\phi}(z|x)}$와 평균의 정의 등을 이용한다.
 
