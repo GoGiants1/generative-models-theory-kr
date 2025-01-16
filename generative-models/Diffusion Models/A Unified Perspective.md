@@ -68,7 +68,7 @@ $$
 
 $$
 
-\log p(x) \ge \mathbb{E}_{q_{\phi}(z|x)} \left [ \frac{\log p(x, z)}{ \log q_{\phi}(z|x)} \right ]  = \text{ELBO}
+\log{p(x)} \ge \mathbb{E}_{q_{\phi}(z|x)} \left [ \frac{\log{p(x, z)}}{ \log{q_{\phi}(z|x)}} \right ]  = \text{ELBO}
 
 $$
 
