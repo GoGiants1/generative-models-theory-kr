@@ -67,7 +67,9 @@ $$
 하지만, 이를 계산하고 likelihood $p(x)$를 최대화 하는 것은 모든 latent variable $z$에 대해 marginalize하는 것($z$에 대해서 적분)이 필요하므로 복잡한 모델에서는 intractable하다. Chain rule을 사용하는 방식에서는, ground truth latent encoder $p(z|x)$에 대한 접근이 필요하다는 단점이 있다. 따라서, 이를 근사하기 위해 위의 두 가지 $p(x)$ 식을 이용하여 ELBO 수식을 유도할 수 있다. 먼저, Evidence란 우리가 관측한 데이터가 주어졌을 때, 모델이 이 데이터를 생성할 확률을 의미한다. 여기서는 log를 취한 형식을 사용한다.
 
 $$
+
 \log p(x) \ge \mathbb{E}_{q_{\phi}(z|x)} \left [ \frac{\log p(x, z)}{ \log q_{\phi}(z|x)} \right ]  = \text{ELBO}
+
 $$
 
 여기서 $q_{\phi}(z|x)$는 flexible approximate variational distribution을 의미한다.
@@ -77,7 +79,7 @@ $$
 유도하는 수식을 살펴보면 아래와 같다. 이때, trick으로는 $1 = \smallint q_{\phi}(z|x) dz = \frac{q_{\phi}(z|x)}{q_{\phi}(z|x)}$와 평균의 정의 등을 이용한다.
 
 $$
-\log p(x) = \\ \log p(x) \smallint q_{\phi}(z|x) dz \\ =\smallint q_{\phi}(z|x) \log p(x) dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \log \frac{p(x, z)}{p(z|x)}dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \left [ \log \frac{p(x, z)}{q_{\phi}(z|x)} \right] + \mathbb{E}_{q_{\phi}(z|x)}\left[ \log \frac{q_{\phi}(z|x)}{p(z|x)} \right] \\ = \smallint q_{\phi}(z|x) \log \frac{p(x, z)}{q_{\phi}(z|x)} dz + D_{KL}(q_{\phi}(z|x) || p(z|x))
+\log p(x) = \log p(x) \smallint q_{\phi}(z|x) dz \\ =\smallint q_{\phi}(z|x) \log p(x) dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \log \frac{p(x, z)}{p(z|x)}dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \left [ \log \frac{p(x, z)}{q_{\phi}(z|x)} \right] + \mathbb{E}_{q_{\phi}(z|x)}\left[ \log \frac{q_{\phi}(z|x)}{p(z|x)} \right] \\ = \smallint q_{\phi}(z|x) \log \frac{p(x, z)}{q_{\phi}(z|x)} dz + D_{KL}(q_{\phi}(z|x) || p(z|x))
 $$
 
 이때, $D_{KL}(q_{\phi}(z|x) || p(z|x))$ 는 KL divergence로, 두 확률 분포 사이의 거리를 측정하는 지표이다. 이 값은 항상 0보다 크거나 같다는 점을 이용하면, ELBO에 대한 이해를 높일 수 있다.
