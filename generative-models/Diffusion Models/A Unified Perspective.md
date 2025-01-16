@@ -76,9 +76,9 @@ $$
 
 유도하는 수식을 살펴보면 아래와 같다. 이때, trick으로는 $1 = \smallint q_{\phi}(z|x) dz = \frac{q_{\phi}(z|x)}{q_{\phi}(z|x)}$와 평균의 정의 등을 이용한다.
 
-```math
+$$
 \log p(x) = \log p(x) \smallint q_{\phi}(z|x) dz \\ =\smallint q_{\phi}(z|x) \log p(x) dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \log \frac{p(x, z)}{p(z|x)}dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \left [ \log \frac{p(x, z)}{q_{\phi}(z|x)} \right] + \mathbb{E}_{q_{\phi}(z|x)}\left[ \log \frac{q_{\phi}(z|x)}{p(z|x)} \right] \\ = \smallint q_{\phi}(z|x) \log \frac{p(x, z)}{q_{\phi}(z|x)} dz + D_{KL}(q_{\phi}(z|x) || p(z|x))
-```
+$$
 
 이때, $D_{KL}(q_{\phi}(z|x) || p(z|x))$ 는 KL divergence로, 두 확률 분포 사이의 거리를 측정하는 지표이다. 이 값은 항상 0보다 크거나 같다는 점을 이용하면, ELBO에 대한 이해를 높일 수 있다.
 
