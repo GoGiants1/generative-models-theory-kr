@@ -74,7 +74,7 @@ $$\log{p(x)} \ge \mathbb{E}_{q_{\phi}(z|x)} \left [ \frac{\log{p(x, z)}}{ \log{q
 
 유도하는 수식을 살펴보면 아래와 같다. 이때, trick으로는 $1 = \smallint q_{\phi}(z|x) dz = \frac{q_{\phi}(z|x)}{q_{\phi}(z|x)}$와 평균의 정의 등을 이용한다.
 
-$$\log p(x) = \log p(x) \smallint q_{\phi}(z|x) dz \\ =\smallint q_{\phi}(z|x) \log p(x) dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \log \frac{p(x, z)}{p(z|x)}dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \left [ \log \frac{p(x, z)}{q_{\phi}(z|x)} \right] + \mathbb{E}_{q_{\phi}(z|x)}\left[ \log \frac{q_{\phi}(z|x)}{p(z|x)} \right] \\ = \smallint q_{\phi}(z|x) \log \frac{p(x, z)}{q_{\phi}(z|x)} dz + D_{KL}(q_{\phi}(z|x) || p(z|x))$$
+$$\log p(x) = \log p(x) \smallint q_{\phi}(z|x) dz \\ =\smallint q_{\phi}(z|x) \log p(x) dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \log \frac{p(x, z)}{p(z|x)}dz \\ =\mathbb{E}_{q_{\phi}(z|x)} \left [ \log \frac{p(x, z)}{q_{\phi}(z|x)} \right] + \mathbb{E}_{q_{\phi}(z|x)}\left[ \log \frac{q_{\phi}(z|x)}{p(z|x)} \right] \\ = \smallint q_{\phi}(z|x) \log \frac{p(x, z)}{q_{\phi}(z|x)} dz + D_{KL}(q_{\phi}(z|x) || p(z|x)) \\ = \text{ELBO} +D_{KL} $$
 
 이때, $D_{KL}(q_{\phi}(z|x) || p(z|x))$ 는 KL divergence로, 두 확률 분포 사이의 거리를 측정하는 지표이다. 이 값은 항상 0보다 크거나 같다는 점을 이용하면, ELBO에 대한 이해를 높일 수 있다.
 
@@ -96,13 +96,13 @@ $$\log p(x) = \log p(x) \smallint q_{\phi}(z|x) dz \\ =\smallint q_{\phi}(z|x) \
 
 ### Variational Autoencoder (VAE)
 
-VAE의 default formulation은 ELBO를 직접 최대화하는 것이다. 이 방법은 *variational* 하다고 불린다. 이는 우리가 a family of potential posterior distributions(parameterized by $\phi$) 중 최적의 분포 $q_{\phi}(z|x)$를 찾기 위해 최적화하는 것을 의미한다. VAE가 *autoencoder*라고 불리는 전통적인 autoencoder 모델처럼 데티어 분포의 intermediate bottlenecking representation을 학습하기 때문이다.
+VAE의 default formulation은 ELBO를 직접 최대화하는 것이다. 이 방법은 *variational* 하다고 불린다. 이는 우리가 a family of potential posterior distributions(parameterized by $\phi$) 중 최적의 분포 $q_{\phi}(z|x)$를 찾기 위해 최적화하는 것을 의미한다. VAE가 *autoencoder*라고 불리는 전통적인 autoencoder 모델처럼 데이터 분포의 intermediate bottlenecking representation을 학습하기 때문이다.
 
 이러한 특징을 더욱 자세히 설명하기 위해, VAE의 ELBO 수식을 더욱 분해해보자.
 
 $$
 \mathbb{E}_{q_{\phi}(z|x)} \left [\log \frac{ p(x, z)}{q_{\phi}(z|x)} \right] = \mathbb{E}_{q_{\phi}(z|x)} \left [\log \frac{ p_{\theta}(x|z)p(z)}{q_{\phi}(z|x)} \right]
-\\= \mathbb{E}_{q_{\phi}(z|x)} \left [\log p_{\theta}(x|z) \right] - D_{KL}(q_{\phi}(z|x) || p(z))
+\\= \underset{\text{reconstruction}} {\underbrace{\mathbb{E}_{q_{\phi}(z|x)} \left [\log p_{\theta}(x|z) \right]}} - \underset{\text{prior matching}}{\underbrace{D_{KL}(q_{\phi}(z|x) || p(z))}}
 $$
 
 이 식에서
