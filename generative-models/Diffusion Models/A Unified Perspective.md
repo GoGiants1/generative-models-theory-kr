@@ -64,7 +64,7 @@ $$
 p(x) =  \frac{p(x,z)}{p(z|x)}
 $$
 
-하지만, 이를 계산하고 likelihood $p(x)$를 최대화 하는 것은 모든 latent variable $z$에 대해 marginalize하는 것(z에 대해서 적분)이 필요하므로 복잡한 모델에서는 intractable하다. Chain rule을 사용하는 방식에서는, ground truth latent encoder $p(z|x)$에 대한 접근이 필요하다는 단점이 있다. 따라서, 이를 근사하기 위해 위의 두 가지 $p(x)$ 식을 이용하여 ELBO 수식을 유도할 수 있다. 먼저, Evidence란 우리가 관측한 데이터가 주어졌을 때, 모델이 이 데이터를 생성할 확률을 의미한다. 여기서는 log를 취한 형식을 사용한다.
+하지만, 이를 계산하고 likelihood $p(x)$를 최대화 하는 것은 모든 latent variable $z$에 대해 marginalize하는 것($z$에 대해서 적분)이 필요하므로 복잡한 모델에서는 intractable하다. Chain rule을 사용하는 방식에서는, ground truth latent encoder $p(z|x)$에 대한 접근이 필요하다는 단점이 있다. 따라서, 이를 근사하기 위해 위의 두 가지 $p(x)$ 식을 이용하여 ELBO 수식을 유도할 수 있다. 먼저, Evidence란 우리가 관측한 데이터가 주어졌을 때, 모델이 이 데이터를 생성할 확률을 의미한다. 여기서는 log를 취한 형식을 사용한다.
 
 $$
 \log p(x) \ge \mathbb{E}_{q_{\phi}(z|x)} \left [ \frac{\log p(x, z)}{ \log q_{\phi}(z|x)} \right ]  = \text{ELBO}
